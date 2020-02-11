@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.foreignexchange.common.ForeignExchangeEnum.TransactionType;
 import com.foreignexchange.common.ForeignExchangeEnum.TransferStatus;
 
@@ -31,6 +33,7 @@ public class UserTransaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userTransactionId;
+	@CreatedDate
 	private LocalDate transactionDate;
 	@Enumerated(EnumType.STRING)
 	private TransactionType transactionType;
@@ -41,7 +44,7 @@ public class UserTransaction {
 	@JoinColumn(name = "to_account_number")
 	private UserAccount toUserAccount;
 	private Double amount;
-	private Double remitChange;
+	private Double remitCharge;
 	private Double transferAmount;
 	private Double toAccountAmount;
 	@Enumerated(EnumType.STRING)
