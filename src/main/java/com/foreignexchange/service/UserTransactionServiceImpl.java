@@ -67,7 +67,7 @@ public class UserTransactionServiceImpl implements UserTransactionService {
 		BeanUtils.copyProperties(userAccount, userAccountDto);
 		userAccountDto.setToAccountNumber(userTransaction.getToUserAccount().getAccountNumber());
 		userAccountDto.setCurrencyType(userAccount.getCurrency().getCurrencyCode());
-		userAccountDto.setRemitCharge(userTransaction.getRemitChange());
+		userAccountDto.setRemitCharge(userTransaction.getRemitCharge());
 		userAccountDto.setTotalAmount(userTransaction.getTransferAmount());
 		userAccountDto.setConvertedType(userTransaction.getToUserAccount().getCurrency().getCurrencyCode());
 		userAccountDto.setConvertedAmount(userTransaction.getToAccountAmount());

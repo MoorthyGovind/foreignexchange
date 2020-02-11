@@ -1,5 +1,6 @@
 package com.foreignexchange.service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -91,8 +92,12 @@ public class UserAccountTransactionServiceImpl implements UserAccountTransaction
 		UserTransaction userTransaction = new UserTransaction();
 		userTransaction.setFromUserAccount(userAccount.get());
 		userTransaction.setToUserAccount(toUserAccount.get());
+		userTransaction.setToAccountAmount(transferRequestDto.getToAccountAmount());
 		userTransaction.setTransactionType(ForeignExchangeEnum.TransactionType.DEBIT);
+		userTransaction.setAmount(transferRequestDto.getTransferAmount());
+		userTransaction.setTransactionDate(LocalDate.now());
 		BeanUtils.copyProperties(transferRequestDto, userTransaction);
+		userTransaction.setTransferAmount(transferRequestDto.getTotalAmount());
 		userTransaction.setStatus(ForeignExchangeEnum.TransferStatus.PENDING);
 
 		log.debug("save the account transaction details...");

@@ -56,7 +56,7 @@ public class PendingTransferTransactionForSchedularJob {
 			if (fromUserAccount.getAvailableBalance() < userTransaction.getTransferAmount()) {
 				log.error("Error Occured in transferAmount transferaa mount more than in Available Balance...");
 
-				Double afterDebitRemitCharge = fromUserAccount.getAvailableBalance() - userTransaction.getRemitChange();
+				Double afterDebitRemitCharge = fromUserAccount.getAvailableBalance() - userTransaction.getRemitCharge();
 				fromUserAccount.setAvailableBalance(afterDebitRemitCharge);
 				userAccountRepository.save(fromUserAccount);
 
