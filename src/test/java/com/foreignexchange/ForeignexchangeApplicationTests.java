@@ -1,5 +1,7 @@
 package com.foreignexchange;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,7 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ForeignexchangeApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void applicationTest() {
+		ForeignexchangeApplication.main(new String[] {});
+		assertTrue(true);
 	}
-
 }

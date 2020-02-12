@@ -14,6 +14,7 @@ import com.foreignexchange.dto.UserTransactionResponceDto;
 import com.foreignexchange.entity.User;
 import com.foreignexchange.entity.UserAccount;
 import com.foreignexchange.entity.UserTransaction;
+import com.foreignexchange.exception.UserAccountNotFoundException;
 import com.foreignexchange.exception.UserNotFoundException;
 import com.foreignexchange.repository.UserAccountRepository;
 import com.foreignexchange.repository.UserRepository;
@@ -35,7 +36,7 @@ public class UserTransactionServiceImpl implements UserTransactionService {
 
 	@Override
 	public UserTransactionResponceDto getTransactionDetailsById(Integer userId, Long accountNumber)
-			throws UserNotFoundException {
+			throws UserNotFoundException, UserAccountNotFoundException {
 
 		// Check the User is present or not.
 		Optional<User> user = userRepository.findById(userId);
@@ -47,7 +48,7 @@ public class UserTransactionServiceImpl implements UserTransactionService {
 		Optional<UserAccount> userAccount = userAccountrepository.findById(accountNumber);
 		if (!userAccount.isPresent()) {
 			log.error("Error Occured in transferAmount for user not found...");
-			throw new UserNotFoundException(AppConstant.NO_RECORDS_FOUND);
+			throw new UserAccountNotFoundException(AppConstant.NO_RECORDS_FOUND);
 		}
 
 		List<UserTransaction> userTransactions = userTransactionRepository.findAllByFromUserAccount(userAccount.get());
