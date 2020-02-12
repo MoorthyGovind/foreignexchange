@@ -23,67 +23,56 @@ import com.foreignexchange.service.ForeignexchangeServiceImpl;
 @Component
 @RestController
 @CrossOrigin
-public class ForeignExchangeController{
+public class ForeignExchangeController {
 
-	
 	@Autowired
 	ForeignexchangeServiceImpl foreignexchangeServiceimpl;
-	
-	@GetMapping(value="/currencies")
+
+	@GetMapping(value = "/currencies")
 	public ResponseEntity<CurrencyResponse> getCurrencies() {
-		// TODO Auto-generated method stub
-	CurrencyResponse currencyResponse = null;
-	
-	List<Currency>	currencylsitobj=foreignexchangeServiceimpl.getAllCurrencies();
-	if (currencylsitobj!=null) {
-	currencyResponse=new CurrencyResponse();
-	currencyResponse.setMessage(AppConstant.SUCCESS_MESSAGE);
-	currencyResponse.setStatuscode(AppConstant.SUCCESS_STATUS_CODE);
-	
-	List<CurrencyResObj> currencies = new ArrayList<>();
-	CurrencyResObj CurrencyObject =null;
-	for(Currency currency:currencylsitobj) {
-		CurrencyObject	=new CurrencyResObj();
-		CurrencyObject.setCurrencyCode(currency.getCurrencyCode());
-		CurrencyObject.setCurrencyName(currency.getCurrencyName());
-		currencies.add(CurrencyObject);
+		CurrencyResponse currencyResponse = null;
+
+		List<Currency> currencylsitobj = foreignexchangeServiceimpl.getAllCurrencies();
+		if (currencylsitobj != null) {
+			currencyResponse = new CurrencyResponse();
+			currencyResponse.setMessage(AppConstant.SUCCESS_MESSAGE);
+			currencyResponse.setStatuscode(AppConstant.SUCCESS_STATUS_CODE);
+
+			List<CurrencyResObj> currencies = new ArrayList<>();
+			CurrencyResObj currencyObject = null;
+			for (Currency currency : currencylsitobj) {
+				currencyObject = new CurrencyResObj();
+				currencyObject.setCurrencyCode(currency.getCurrencyCode());
+				currencyObject.setCurrencyName(currency.getCurrencyName());
+				currencies.add(currencyObject);
+			}
+			currencyResponse.setCurrencies(currencies);
+
+		}
+		return new ResponseEntity<>(currencyResponse, HttpStatus.OK);
 	}
-	currencyResponse.setCurrencies(currencies);
-		
+
+	@GetMapping(value = "/accounts/{accountNumber}")
+	public ResponseEntity<AccountDetailResponse> getAccounDetail(@PathVariable("accountNumber") Long acctnum) {
+
+		AccountDetailResponse accountDetailResponse = new AccountDetailResponse();
+		UserAccount accountobj = foreignexchangeServiceimpl.getAccountDetail(acctnum);
+
+		if (accountobj != null) {
+			accountDetailResponse.setStatusCode(AppConstant.SUCCESS_STATUS_CODE);
+			accountDetailResponse.setMessage(AppConstant.SUCCESS_MESSAGE);
+			accountDetailResponse.setAccountType(accountobj.getAccountType().name());
+			accountDetailResponse.setAccountBalance(accountobj.getAvailableBalance());
+			accountDetailResponse.setAccountNumber(accountobj.getAccountNumber());
+			accountDetailResponse.setCurrencyType(accountobj.getCurrency().getCurrencyCode());
+
+			return new ResponseEntity<>(accountDetailResponse, HttpStatus.OK);
+		} else {
+			accountDetailResponse.setStatusCode(400);
+			accountDetailResponse.setMessage(AppConstant.NO_RECORDS_FOUND);
+			return new ResponseEntity<>(accountDetailResponse, HttpStatus.NOT_FOUND);
+		}
+
 	}
-		return new ResponseEntity<CurrencyResponse>(currencyResponse,HttpStatus.OK);
-	}
-	
-	
-	
-	
-	
-	
-	
-	  @GetMapping(value="/accounts/{accountNumber}") public
-	  ResponseEntity<AccountDetailResponse> getAccounDetail(@PathVariable("accountNumber") Long acctnum) {
-	  
-	  AccountDetailResponse accountDetailResponse=new AccountDetailResponse();
-	  UserAccount accountobj=foreignexchangeServiceimpl.getAccountDetail( acctnum); 
-	  
-	  
-	  if(accountobj!=null) {
-	  accountDetailResponse.setStatusCode(AppConstant.SUCCESS_STATUS_CODE);
-	  accountDetailResponse.setMessage(AppConstant.SUCCESS_MESSAGE);
-	  accountDetailResponse.setAccountType(accountobj.getAccountType().name());
-	  accountDetailResponse.setAccountBalance(accountobj.getAvailableBalance());
-	  accountDetailResponse.setAccountNumber(accountobj.getAccountNumber());
-	  accountDetailResponse.setCurrencyType(accountobj.getCurrency().getCurrencyCode());
-	  
-	  return new
-	  ResponseEntity<AccountDetailResponse>(accountDetailResponse,HttpStatus.OK); }
-	  else { 
-	  accountDetailResponse.setStatusCode(400);
-	  accountDetailResponse.setMessage(AppConstant.NO_RECORDS_FOUND); 
-	  return new ResponseEntity<AccountDetailResponse>(accountDetailResponse,HttpStatus.
-	  NOT_FOUND); }
-	  
-	  }
-	 
 
 }

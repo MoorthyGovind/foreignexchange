@@ -78,7 +78,7 @@ public class UserAccountTransactionController {
 	
 	@GetMapping("/{userId}/transactions/{accountNumber}")
 	public ResponseEntity<UserTransactionResponceDto> getTransactionDetailsById(@PathVariable Integer userId,
-			@PathVariable Long accountNumber) throws UserNotFoundException {
+			@PathVariable Long accountNumber) throws UserNotFoundException, UserAccountNotFoundException {
 
 		UserTransactionResponceDto transactionDetailsById = userTransactionService.getTransactionDetailsById(userId,
 				accountNumber);

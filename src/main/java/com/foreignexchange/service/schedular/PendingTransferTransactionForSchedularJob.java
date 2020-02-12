@@ -48,7 +48,6 @@ public class PendingTransferTransactionForSchedularJob {
 
 		List<UserTransaction> userTransactions = userTransactionRepository.findAllByStatus(TransferStatus.PENDING);
 		userTransactions.forEach(userTransaction -> {
-			System.out.println("TransactionID:: " + userTransaction.getUserTransactionId());
 
 			UserAccount fromUserAccount = userTransaction.getFromUserAccount();
 

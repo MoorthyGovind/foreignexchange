@@ -45,10 +45,11 @@ public class CurrencyServiceImpl implements CurrencyService {
 	 * @throws ExchangeRateNotFoundException - If throws this exception when no data
 	 *                                       found for exchange rate from external
 	 *                                       api call.
-	 * @throws CurrencyNotFoundException 
+	 * @throws CurrencyNotFoundException
 	 */
 	@Override
-	public CurrencyExrateDto getExrateRateByCurrencyCode(String currencyCode) throws ExchangeRateNotFoundException, CurrencyNotFoundException {
+	public CurrencyExrateDto getExrateRateByCurrencyCode(String currencyCode)
+			throws ExchangeRateNotFoundException, CurrencyNotFoundException {
 		log.info("getting the exrate rate based on the currency code...");
 
 		// Check the currency Code is present or not.
@@ -64,7 +65,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 		log.info("getting the exrate rate before calling rest template...");
 
 		ExrateRateDto response = restTemplate.getForEntity(url, ExrateRateDto.class).getBody();
-		System.out.println(response);
 
 		HashMap<String, Double> exrates = response.getRates();
 
